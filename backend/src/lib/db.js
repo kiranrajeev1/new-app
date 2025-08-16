@@ -1,21 +1,25 @@
 import mongoose from "mongoose";
 
-export const connectDB = async () => {
+const connectWithRetry = async () => {
   try {
+    // Check if the environment variable is set
     if (!process.env.MONGODB_URI) {
       throw new Error('MONGODB_URI environment variable is required');
     }
     
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      // Additional options for better connection handling
-      maxPoolSize: 10,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-    });
-    
-    console.log(`MongoDB connected: ${conn.connection.host}`);
+    // Attempt to connect
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log("MongoDB connected successfully");
+
   } catch (error) {
-    console.log("MongoDB connection error:", error);
-    process.exit(1); // Exit if database connection fails
+    console.error("MongoDB connection error:", error.message);
+    console.log("Retrying connection in 5 seconds...");
+    
+    // Wait 5 seconds before trying to reconnect
+    setTimeout(connectWithRetry, 5000);
   }
+};
+
+export const connectDB = async () => {
+  await connectWithRetry();
 };
