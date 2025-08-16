@@ -20,6 +20,8 @@ spec:
         ports:
         - containerPort: 5001
         env:
+        - name: CORS_ORIGIN
+          value: "http://54.221.144.159:30080"
         - name: MONGODB_URI
           value: "mongodb://root:admin@mongodb:27017/chatApp?authSource=admin"
         - name: PORT
