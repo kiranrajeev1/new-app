@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: process.env.NODE_ENV === "production" 
-      ? ["http://13.218.113.190:8080", "http://13.218.113.190"] 
+      ? ["http://13.218.113.190:30080", "http://13.218.113.190"] 
       : "http://13.218.113.190:5173",
     credentials: true,
   })
