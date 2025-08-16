@@ -18,8 +18,8 @@ dotenv.config();
 const PORT = process.env.PORT;
 const __dirname = path.resolve();
 
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN, // Read from an environment variable
